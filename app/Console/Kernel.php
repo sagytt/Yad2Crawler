@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         foreach($cities as $city)
         {
         $schedule->call('App\Http\Controllers\FindController@FindInPage', array($city))
-            ->timezone('Asia/Jerusalem')->everyThirtyMinutes();
-            //->timezone('Asia/Jerusalem')->everyMinute();
+            //->timezone('Asia/Jerusalem')->everyThirtyMinutes();
+            ->timezone('Asia/Jerusalem')->everyMinute();
         }
     }
 

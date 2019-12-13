@@ -18,7 +18,7 @@ class FindController extends Controller
         $textToFile = 'Spider run at: ' . Carbon::now('Asia/Jerusalem');
         File::put('C:\xampp\htdocs\Yad2Crawler\public\Log.txt', $textToFile);
 
-        if (!empty($lastRecord = FindInPage::where('city_code', '=', $city['city_code'])->orderBy('id', 'desc')->first()))
+        if (!empty($lastRecord = FindInPage::where('city_code', '=', $city->city_code)->orderBy('id', 'desc')->first()))
         {
             if ($lastRecord)
             {
@@ -26,7 +26,7 @@ class FindController extends Controller
             }
             $lastRecord = $lastRecord['street_name'];
         }
-        $pageURL = 'https://www.yad2.co.il/realestate/rent?city='.$city['city_code'].'&price=1000-2000';
+        $pageURL = 'https://www.yad2.co.il/realestate/rent?city='.$city->city_code.'&rooms=1.5--1&price=1000-2400';
         $result = RequestsHelper::getInstance()->doGetRequest($pageURL);
         $page = new DOMDocument;
         libxml_use_internal_errors(true);
@@ -48,7 +48,7 @@ class FindController extends Controller
         if (isset($arr) && count($arr) > 0) {
             $findpage = new FindInPage();
             $findpage->street_name = $street_name;
-            $findpage->city_code = $city['city_code'];
+            $findpage->city_code = $city->city_code;
         }
         if (!(isset($findpage->street_name) && $lastRecord == $street_name))
         {
@@ -59,7 +59,7 @@ class FindController extends Controller
             $nexmo->message()->send([
                 'to' => '+972543984604',
                 'from' => 'Yad2 Spider',
-                'text' => 'New shit on Yad 2.'.' '.$city['city_name'].' '. $pageURL
+                'text' => 'New shit on Yad 2.'.' '.$city->city_name.' '. $pageURL
             ]);
         }
     }
