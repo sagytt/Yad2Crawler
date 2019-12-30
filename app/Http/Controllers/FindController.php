@@ -57,7 +57,7 @@ class FindController extends Controller
             print_r("\n");
             $nexmo = app('Nexmo\Client');
             $nexmo->message()->send([
-                'to' => '+972543984604',
+                'to' => '+972540000000',
                 'from' => 'Yad2 Spider',
                 'text' => 'New shit on Yad 2.'.' '.$city->city_name.' '. $pageURL
             ]);
